@@ -1,10 +1,10 @@
-⚙️ User Settings Manager
+# ⚙️ User Settings Manager
 
 A lightweight Python module for managing user preferences such as theme, language, and notifications.
 This project demonstrates how to add, update, delete, and view settings stored in a dictionary.
 
 
-📂 Features
+## 📂 Features
 
 Add new settings → Insert a new key-value pair.
 
@@ -14,7 +14,7 @@ Delete settings → Remove a setting by its key.
 
 View settings → Display all current settings in a user-friendly format.
 
-📜 Code Overview
+## 📜 Code Overview
 python
 #Dictionary to store user settings
 test_settings = {
@@ -29,7 +29,7 @@ def delete_setting(settings: dict, key: str) -> str: ...
 def view_settings(settings: dict) -> str: ...
 
 
-🚀 Usage Examples
+## 🚀 Usage Examples
 
 python
 #View settings
@@ -54,7 +54,10 @@ print(delete_setting(test_settings, "notifications"))
 
 #View updated settings
 print(view_settings(test_settings))
-⚡ Key Notes
+
+
+## ⚡ Key Notes
+
 Keys and values are normalized to lowercase for consistency.
 
 Duplicate keys are not allowed when adding new settings.
@@ -64,7 +67,7 @@ User-friendly messages are returned for each operation.
 The view_settings function capitalizes keys for readability.
 
 
-📖 Extensions
+## 📖 Extensions
 
 This module can be extended to:
 
