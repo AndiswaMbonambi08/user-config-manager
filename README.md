@@ -50,7 +50,7 @@ def view_settings(settings: dict) -> str: ...
 ## 🚀 Usage Examples
 
 python
-# View settings
+#View settings
 print(view_settings(test_settings))
 #Output:
 #Current User Settings:
@@ -58,19 +58,19 @@ print(view_settings(test_settings))
 #Language: english
 #Notifications: enabled
 
-# Add a new setting
+#Add a new setting
 print(add_setting(test_settings, ("privacy", "high")))
 #Output: Setting 'privacy' added with value 'high' successfully!
 
-# Update an existing setting
+#Update an existing setting
 print(update_setting(test_settings, ("theme", "dark")))
 #Output: Setting 'theme' updated to 'dark' successfully!
 
-# Delete a setting
+#Delete a setting
 print(delete_setting(test_settings, "notifications"))
 #Output: Setting 'notifications' deleted successfully!
 
-# View updated settings
+#View updated settings
 print(view_settings(test_settings))
 
 
@@ -89,5 +89,8 @@ The view_settings function capitalizes keys for readability.
 
 <img width="1713" height="1398" alt="Screenshot_26-5-2026_31952_127 0 0 1" src="https://github.com/user-attachments/assets/1599c87e-46a7-4f7d-a5ad-9aeb12b26625" />
 
-<img width="1713" height="1398" alt="Screenshot_26-5-2026_32016_127 0 0 1" src="https://github.com/user-attachments/assets/d4ef1679-bab8-424c-8b6e-e06c99d8310e" />
+<img width="1713" height="1555" alt="Screenshot_26-5-2026_32232_127 0 0 1" src="https://github.com/user-attachments/assets/75896104-a62d-4f60-ba5e-63f49588dfd2" />
+
+
+
 
