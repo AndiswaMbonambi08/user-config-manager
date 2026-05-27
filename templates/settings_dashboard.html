@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Manager - Professional Configuration Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d9ff;
+            --secondary: #667eea;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --border: #334155;
+            --text: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a2332 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats-mini {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .main {
+            padding: 3rem 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark-bg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: #6ee7b7;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: #fca5a5;
+        }
+
+        .setting-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #94a3b8;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--primary);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>?? Settings Manager</h1>
+                <div class="stats-mini">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalSettings">0</div>
+                        <div class="stat-label">Settings</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalChanges">0</div>
+                        <div class="stat-label">Changes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div id="alertContainer"></div>
+
+            <div class="grid">
+                <!-- Create Setting -->
+                <div class="card">
+                    <h2>? Create New Setting</h2>
+                    <form onsubmit="addSetting(event)">
+                        <div class="form-group">
+                            <label>Setting Key</label>
+                            <input type="text" id="settingKey" required placeholder="e.g., theme">
+                        </div>
+                        <div class="form-group">
+                            <label>Value</label>
+                            <input type="text" id="settingValue" required placeholder="e.g., dark">
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <input type="text" id="settingCategory" value="general">
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select id="settingType">
+                                <option>text</option>
+                                <option>toggle</option>
+                                <option>dropdown</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="settingDesc" placeholder="Optional description"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Setting</button>
+                    </form>
+                </div>
+
+                <!-- Statistics -->
+                <div class="card">
+                    <h2>?? Statistics</h2>
+                    <div style="margin: 2rem 0;">
+                        <div style="margin-bottom: 1.5rem;">
+                            <div class="stat-label">Total Settings</div>
+                            <div class="stat-value" id="statsTotal">0</div>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <div class="stat-label">Categories</div>
+                            <div class="stat-value" id="statsCategories">0</div>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <div class="stat-label">Total Changes</div>
+                            <div class="stat-value" id="statsHistoryCount">0</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="exportSettings()">?? Export JSON</button>
+                </div>
+            </div>
+
+            <!-- Settings & History -->
+            <div class="card">
+                <h2>?? Manage Settings</h2>
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('settings')">?? Your Settings</button>
+                    <button class="tab-btn" onclick="switchTab('history')">?? Change History</button>
+                </div>
+
+                <div id="settings" class="tab-content active">
+                    <div id="settingsContainer" class="settings-list">
+                        <div class="empty-state">
+                            <p>No settings yet. Create your first setting! ?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="history" class="tab-content">
+                    <div class="history-list" id="historyContainer">
+                        <div class="empty-state">
+                            <p>No change history yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', loadSettings);
+
+        async function loadSettings() {
+            try {
+                const response = await fetch('/api/settings');
+                const settings = await response.json();
+                renderSettings(settings);
+                loadStats();
+                loadHistory();
+            } catch (error) {
+                console.error('Error loading settings:', error);
+            }
+        }
+
+        function renderSettings(settingsObj) {
+            const container = document.getElementById('settingsContainer');
+            if (Object.keys(settingsObj).length === 0) {
+                container.innerHTML = `<div class="empty-state"><p>No settings yet. Create your first setting! ?</p></div>`;
+                return;
+            }
+
+            let html = '';
+            for (const [category, settings] of Object.entries(settingsObj)) {
+                html += `<h3 style="color: var(--secondary); margin-top: 2rem; margin-bottom: 1rem;">${category}</h3>`;
+                for (const setting of settings) {
+                    html += `
+                        <div class="setting-item">
+                            <div>
+                                <strong>${setting.key}</strong>
+                                <p>${setting.description || 'No description'}</p>
+                                <p style="font-size: 0.8rem; color: var(--primary);">Value: <strong>${setting.value}</strong></p>
+                            </div>
+                            <div>
+                                <button class="btn btn-secondary" onclick="editSetting('${setting.key}')">?? Edit</button>
+                                <button class="btn btn-danger" onclick="deleteSetting('${setting.key}')">??? Delete</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            container.innerHTML = html;
+        }
+
+        async function addSetting(event) {
+            event.preventDefault();
+            const key = document.getElementById('settingKey').value;
+            const value = document.getElementById('settingValue').value;
+            const category = document.getElementById('settingCategory').value;
+            const type = document.getElementById('settingType').value;
+            const description = document.getElementById('settingDesc').value;
+
+            try {
+                const response = await fetch('/api/settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key, value, category, type, description })
+                });
+                const result = await response.json();
+                const alertContainer = document.getElementById('alertContainer');
+                if (result.success) {
+                    alertContainer.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
+                    event.target.reset();
+                    setTimeout(() => loadSettings(), 500);
+                } else {
+                    alertContainer.innerHTML = `<div class="alert alert-error">${result.message}</div>`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function deleteSetting(key) {
+            if (confirm(`Delete setting '${key}'?`)) {
+                try {
+                    const response = await fetch(`/api/settings/${key}`, { method: 'DELETE' });
+                    const result = await response.json();
+                    if (result.success) {
+                        document.getElementById('alertContainer').innerHTML = `<div class="alert alert-success">${result.message}</div>`;
+                        loadSettings();
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        }
+
+        async function editSetting(key) {
+            const newValue = prompt(`Enter new value for '${key}':`);
+            if (newValue !== null && newValue.trim() !== '') {
+                try {
+                    const response = await fetch(`/api/settings/${key}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ value: newValue })
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        document.getElementById('alertContainer').innerHTML = `<div class="alert alert-success">${result.message}</div>`;
+                        loadSettings();
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const stats = await response.json();
+                document.getElementById('totalSettings').textContent = stats.total_settings;
+                document.getElementById('totalChanges').textContent = stats.total_changes;
+                document.getElementById('statsTotal').textContent = stats.total_settings;
+                document.getElementById('statsCategories').textContent = stats.total_categories;
+                document.getElementById('statsHistoryCount').textContent = stats.total_changes;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function loadHistory() {
+            try {
+                const response = await fetch('/api/history?limit=20');
+                const data = await response.json();
+                const container = document.getElementById('historyContainer');
+                if (data.history.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><p>No change history yet.</p></div>';
+                    return;
+                }
+                let html = '';
+                for (const entry of data.history) {
+                    html += `
+                        <div class="history-item">
+                            <strong>${entry.setting_key}</strong><br>
+                            Changed from <code style="color: var(--danger);">${entry.old_value}</code> to <code style="color: var(--success);">${entry.new_value}</code>
+                            <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.5rem;">${new Date(entry.timestamp).toLocaleString()}</div>
+                        </div>
+                    `;
+                }
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading history:', error);
+            }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function exportSettings() {
+            try {
+                const response = await fetch('/api/export');
+                const data = await response.json();
+                const dataStr = JSON.stringify(data, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `settings-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                document.getElementById('alertContainer').innerHTML = `<div class="alert alert-success">Settings exported! ??</div>`;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        setInterval(loadStats, 5000);
+    </script>
+</body>
+</html>
